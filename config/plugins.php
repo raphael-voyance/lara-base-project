@@ -18,11 +18,7 @@ return [
     'namespace' => 'App\\Plugins',
 
     // Plugins activés
-    'enabled' => [
-        'TaskManager' => true,
-        'Blog' => false,
-        'Ecommerce' => false,
-    ],
+    'enabled' => [],
 
     // Configuration par défaut des plugins
     'defaults' => [
