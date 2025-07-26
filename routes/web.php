@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\DocumentationController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Passwords\Confirm;
 use App\Livewire\Auth\Passwords\Email;
@@ -22,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome')->name('home');
+
+// Routes de documentation
+Route::prefix('doc')->name('doc.')->group(function () {
+    Route::get('/', [DocumentationController::class, 'index'])->name('index');
+    Route::get('/plugins', [DocumentationController::class, 'plugins'])->name('plugins');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)

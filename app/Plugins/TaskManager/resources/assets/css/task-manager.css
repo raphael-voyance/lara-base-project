@@ -1,0 +1,615 @@
+/* ==========================================================================
+   Task Manager Plugin - Styles CSS
+   ========================================================================== */
+
+/* Variables CSS personnalisées */
+:root {
+    --task-manager-primary: #3B82F6;
+    --task-manager-secondary: #6B7280;
+    --task-manager-success: #10B981;
+    --task-manager-warning: #F59E0B;
+    --task-manager-danger: #EF4444;
+    --task-manager-info: #06B6D4;
+
+    --task-manager-border-radius: 0.5rem;
+    --task-manager-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --task-manager-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    --task-manager-transition: all 0.2s ease-in-out;
+}
+
+/* ==========================================================================
+   Composants de base
+   ========================================================================== */
+
+/* Carte de tâche */
+.task-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 transition-all duration-200 hover:shadow-md;
+}
+
+.task-card:hover {
+    @apply border-blue-300;
+}
+
+.task-card.overdue {
+    @apply border-red-300 bg-red-50;
+}
+
+.task-card.due-today {
+    @apply border-yellow-300 bg-yellow-50;
+}
+
+.task-card.completed {
+    @apply border-green-300 bg-green-50;
+}
+
+/* Badge de statut */
+.status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.status-badge.pending {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.status-badge.in-progress {
+    @apply bg-blue-100 text-blue-800;
+}
+
+.status-badge.completed {
+    @apply bg-green-100 text-green-800;
+}
+
+.status-badge.cancelled {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Badge de priorité */
+.priority-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.priority-badge.low {
+    @apply bg-gray-100 text-gray-800;
+}
+
+.priority-badge.medium {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.priority-badge.high {
+    @apply bg-orange-100 text-orange-800;
+}
+
+.priority-badge.urgent {
+    @apply bg-red-100 text-red-800;
+}
+
+/* ==========================================================================
+   Interface utilisateur
+   ========================================================================== */
+
+/* Barre d'outils */
+.task-toolbar {
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 border-b border-gray-200;
+}
+
+.task-toolbar .left-section {
+    @apply flex flex-col sm:flex-row items-start sm:items-center gap-3;
+}
+
+.task-toolbar .right-section {
+    @apply flex flex-col sm:flex-row items-start sm:items-center gap-3;
+}
+
+/* Filtres */
+.task-filters {
+    @apply bg-white border border-gray-200 rounded-lg p-4 mb-6;
+}
+
+.task-filters .filter-row {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.task-filters .filter-group {
+    @apply flex flex-col;
+}
+
+.task-filters .filter-label {
+    @apply text-sm font-medium text-gray-700 mb-1;
+}
+
+.task-filters .filter-input {
+    @apply border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+/* Tableau des tâches */
+.task-table {
+    @apply min-w-full divide-y divide-gray-200 bg-white rounded-lg shadow-sm;
+}
+
+.task-table thead {
+    @apply bg-gray-50;
+}
+
+.task-table th {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors;
+}
+
+.task-table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-b border-gray-100;
+}
+
+.task-table tbody tr {
+    @apply hover:bg-gray-50 transition-colors;
+}
+
+.task-table tbody tr.selected {
+    @apply bg-blue-50 border-blue-200;
+}
+
+/* Pagination */
+.task-pagination {
+    @apply flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6;
+}
+
+.task-pagination .pagination-info {
+    @apply text-sm text-gray-700;
+}
+
+.task-pagination .pagination-links {
+    @apply flex items-center space-x-2;
+}
+
+.task-pagination .page-link {
+    @apply relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50;
+}
+
+.task-pagination .page-link.active {
+    @apply z-10 bg-blue-50 border-blue-500 text-blue-600;
+}
+
+/* ==========================================================================
+   Composants Livewire
+   ========================================================================== */
+
+/* Indicateur de chargement */
+.loading-indicator {
+    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.loading-spinner {
+    @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
+}
+
+/* Messages de notification */
+.notification {
+    @apply fixed top-4 right-4 z-50 max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden;
+}
+
+.notification.success {
+    @apply bg-green-50 border-l-4 border-green-400;
+}
+
+.notification.error {
+    @apply bg-red-50 border-l-4 border-red-400;
+}
+
+.notification.warning {
+    @apply bg-yellow-50 border-l-4 border-yellow-400;
+}
+
+.notification.info {
+    @apply bg-blue-50 border-l-4 border-blue-400;
+}
+
+/* ==========================================================================
+   Mode Kanban
+   ========================================================================== */
+
+.kanban-board {
+    @apply flex gap-4 overflow-x-auto p-4;
+}
+
+.kanban-column {
+    @apply flex-shrink-0 w-80 bg-gray-100 rounded-lg p-4;
+}
+
+.kanban-column-header {
+    @apply flex items-center justify-between mb-4;
+}
+
+.kanban-column-title {
+    @apply text-lg font-semibold text-gray-900;
+}
+
+.kanban-column-count {
+    @apply bg-gray-200 text-gray-700 text-sm font-medium px-2 py-1 rounded-full;
+}
+
+.kanban-task {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3 cursor-move hover:shadow-md transition-shadow;
+}
+
+.kanban-task.dragging {
+    @apply opacity-50 transform rotate-2;
+}
+
+.kanban-task.overdue {
+    @apply border-red-300 bg-red-50;
+}
+
+/* ==========================================================================
+   Mode Grille
+   ========================================================================== */
+
+.task-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.task-grid-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-all duration-200;
+}
+
+.task-grid-card .card-header {
+    @apply flex items-start justify-between mb-3;
+}
+
+.task-grid-card .card-title {
+    @apply text-lg font-semibold text-gray-900 line-clamp-2;
+}
+
+.task-grid-card .card-meta {
+    @apply flex items-center gap-2 text-sm text-gray-500 mb-3;
+}
+
+.task-grid-card .card-description {
+    @apply text-sm text-gray-600 line-clamp-3 mb-4;
+}
+
+.task-grid-card .card-footer {
+    @apply flex items-center justify-between pt-3 border-t border-gray-100;
+}
+
+/* ==========================================================================
+   Formulaire de tâche
+   ========================================================================== */
+
+.task-form {
+    @apply max-w-4xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200;
+}
+
+.task-form .form-header {
+    @apply px-6 py-4 border-b border-gray-200;
+}
+
+.task-form .form-title {
+    @apply text-lg font-semibold text-gray-900;
+}
+
+.task-form .form-body {
+    @apply p-6;
+}
+
+.task-form .form-group {
+    @apply mb-6;
+}
+
+.task-form .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.task-form .form-input {
+    @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.task-form .form-textarea {
+    @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical;
+}
+
+.task-form .form-select {
+    @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.task-form .form-checkbox {
+    @apply h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded;
+}
+
+.task-form .form-footer {
+    @apply px-6 py-4 bg-gray-50 border-t border-gray-200 rounded-b-lg flex items-center justify-end gap-3;
+}
+
+/* ==========================================================================
+   Tableau de bord
+   ========================================================================== */
+
+.dashboard-stats {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+}
+
+.stat-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+}
+
+.stat-card .stat-header {
+    @apply flex items-center justify-between mb-4;
+}
+
+.stat-card .stat-title {
+    @apply text-sm font-medium text-gray-500;
+}
+
+.stat-card .stat-icon {
+    @apply h-8 w-8 text-gray-400;
+}
+
+.stat-card .stat-value {
+    @apply text-3xl font-bold text-gray-900;
+}
+
+.stat-card .stat-change {
+    @apply text-sm text-gray-500 mt-2;
+}
+
+.stat-card .stat-change.positive {
+    @apply text-green-600;
+}
+
+.stat-card .stat-change.negative {
+    @apply text-red-600;
+}
+
+/* Graphiques */
+.chart-container {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+}
+
+.chart-title {
+    @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+/* ==========================================================================
+   Calendrier
+   ========================================================================== */
+
+.task-calendar {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200;
+}
+
+.calendar-header {
+    @apply flex items-center justify-between p-4 border-b border-gray-200;
+}
+
+.calendar-nav {
+    @apply flex items-center gap-2;
+}
+
+.calendar-nav-btn {
+    @apply p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors;
+}
+
+.calendar-title {
+    @apply text-lg font-semibold text-gray-900;
+}
+
+.calendar-grid {
+    @apply grid grid-cols-7 gap-px bg-gray-200;
+}
+
+.calendar-day {
+    @apply bg-white min-h-32 p-2;
+}
+
+.calendar-day.other-month {
+    @apply bg-gray-50 text-gray-400;
+}
+
+.calendar-day.today {
+    @apply bg-blue-50;
+}
+
+.calendar-day-header {
+    @apply text-sm font-medium text-gray-900 mb-1;
+}
+
+.calendar-task {
+    @apply text-xs p-1 rounded mb-1 cursor-pointer hover:bg-gray-100 transition-colors;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 640px) {
+    .task-toolbar {
+        @apply flex-col items-stretch;
+    }
+
+    .task-filters .filter-row {
+        @apply grid-cols-1;
+    }
+
+    .task-table {
+        @apply text-xs;
+    }
+
+    .task-table th,
+    .task-table td {
+        @apply px-2 py-2;
+    }
+
+    .kanban-board {
+        @apply flex-col;
+    }
+
+    .kanban-column {
+        @apply w-full;
+    }
+
+    .task-grid {
+        @apply grid-cols-1;
+    }
+
+    .dashboard-stats {
+        @apply grid-cols-1;
+    }
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ==========================================================================
+   Utilitaires
+   ========================================================================== */
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cursor-move {
+    cursor: move;
+}
+
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-grabbing {
+    cursor: grabbing;
+}
+
+/* ==========================================================================
+   Mode sombre (si activé)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .dark .task-card {
+        @apply bg-gray-800 border-gray-700 text-gray-100;
+    }
+
+    .dark .task-card:hover {
+        @apply border-blue-600;
+    }
+
+    .dark .task-table {
+        @apply bg-gray-800 divide-gray-700;
+    }
+
+    .dark .task-table thead {
+        @apply bg-gray-700;
+    }
+
+    .dark .task-table th {
+        @apply text-gray-300;
+    }
+
+    .dark .task-table td {
+        @apply text-gray-100 border-gray-700;
+    }
+
+    .dark .task-table tbody tr {
+        @apply hover:bg-gray-700;
+    }
+
+    .dark .task-filters {
+        @apply bg-gray-800 border-gray-700;
+    }
+
+    .dark .task-form {
+        @apply bg-gray-800 border-gray-700;
+    }
+
+    .dark .form-input,
+    .dark .form-textarea,
+    .dark .form-select {
+        @apply bg-gray-700 border-gray-600 text-gray-100;
+    }
+}
+
+/* ==========================================================================
+   Accessibilité
+   ========================================================================== */
+
+/* Focus visible pour l'accessibilité */
+.task-card:focus-visible,
+.task-table th:focus-visible,
+.form-input:focus-visible,
+.form-textarea:focus-visible,
+.form-select:focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Contraste élevé pour les utilisateurs malvoyants */
+@media (prefers-contrast: high) {
+    .task-card {
+        @apply border-2;
+    }
+
+    .status-badge,
+    .priority-badge {
+        @apply border border-current;
+    }
+}
+
+/* Réduction des animations pour les utilisateurs sensibles */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
