@@ -81,6 +81,169 @@ Ce projet est un squelette d’application web basé sur le framework **Laravel 
    composer dev
    ```
 
+## Configuration des Seeders pour les Plugins
+
+### Problème courant : "Class Faker\Factory not found" en production
+
+Si vous rencontrez cette erreur lors de l'exécution des seeders en production, suivez ces étapes :
+
+#### 1. Déplacer Faker vers les dépendances de production
+
+Dans `composer.json`, déplacez Faker de `require-dev` vers `require` :
+
+```json
+{
+    "require": {
+        "fakerphp/faker": "^1.23",
+        // ... autres dépendances
+    },
+    "require-dev": {
+        // Retirez fakerphp/faker d'ici
+        // ... autres dépendances de développement
+    }
+}
+```
+
+Puis installez les dépendances :
+```bash
+composer install --no-dev
+```
+
+#### 2. Corriger les namespaces PSR-4 des factories
+
+Pour les plugins, les factories doivent avoir le bon namespace correspondant à la structure des dossiers :
+
+```php
+// ❌ Incorrect
+namespace App\Plugins\OsmoCore\Database\Factories;
+
+// ✅ Correct
+namespace App\Plugins\OsmoCore\database\factories;
+```
+
+#### 3. Configurer l'autoloader pour les plugins
+
+Dans `composer.json`, ajoutez les factories et seeders des plugins à l'autoloader :
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/",
+            "App\\Plugins\\OsmoCore\\database\\factories\\": "app/Plugins/OsmoCore/database/factories/",
+            "App\\Plugins\\OsmoCore\\database\\seeders\\": "app/Plugins/OsmoCore/database/seeders/"
+        }
+    }
+}
+```
+
+Puis régénérez l'autoloader :
+```bash
+composer dump-autoload
+```
+
+#### 4. Supprimer HasFactory des modèles des plugins
+
+Les modèles des plugins ne doivent **PAS** utiliser le trait `HasFactory` car il cherche dans `Database\Factories`. À la place, ajoutez les méthodes manuelles :
+
+```php
+// ❌ Ne pas utiliser dans les modèles des plugins
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class MyModel extends Model
+{
+    use HasFactory; // ← Supprimer cette ligne
+}
+
+// ✅ Utiliser ces méthodes à la place
+class MyModel extends Model
+{
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return \App\Plugins\OsmoCore\database\factories\MyModelFactory::new();
+    }
+
+    /**
+     * Get a new factory instance for the model.
+     */
+    public static function factory($count = null, $state = [])
+    {
+        return static::newFactory()->count($count)->state($state);
+    }
+}
+```
+
+#### 5. Corriger le namespace du seeder du plugin
+
+Le seeder du plugin doit avoir son propre namespace :
+
+```php
+// ❌ Incorrect
+namespace Database\Seeders;
+
+// ✅ Correct
+namespace App\Plugins\OsmoCore\database\seeders;
+```
+
+#### 6. Appeler le seeder du plugin depuis le seeder principal
+
+Dans `database/seeders/DatabaseSeeder.php`, ajoutez l'appel au seeder du plugin :
+
+```php
+public function run(): void
+{
+    // Vos seeders existants...
+    User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
+
+    // Appeler le seeder du plugin
+    $this->call(\App\Plugins\OsmoCore\database\seeders\DatabaseSeeder::class);
+}
+```
+
+#### 7. Vérifier la structure de la base de données
+
+Assurez-vous que toutes les colonnes référencées dans les seeders existent dans la base de données. Si nécessaire, créez des migrations :
+
+```bash
+php artisan make:migration add_establishment_id_to_users_table --table=users
+```
+
+#### 8. Test des seeders
+
+Testez vos seeders :
+
+```bash
+# Tester le seeder principal (qui appelle les plugins)
+php artisan db:seed
+
+# Tester un seeder spécifique
+php artisan db:seed --class="App\Plugins\OsmoCore\database\seeders\DatabaseSeeder"
+```
+
+### Résumé des commandes
+
+```bash
+# 1. Installer Faker en production
+composer install --no-dev
+
+# 2. Régénérer l'autoloader
+composer dump-autoload
+
+# 3. Exécuter les migrations si nécessaire
+php artisan migrate
+
+# 4. Tester les seeders
+php artisan db:seed
+```
+
 ## Scripts utiles
 
 - `npm run dev` : Lance Vite en mode développement
