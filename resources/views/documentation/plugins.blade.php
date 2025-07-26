@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-guest-layout>
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="bg-white shadow-sm border-b">
@@ -296,4 +294,4 @@ class PluginServiceProvider extends ServiceProvider
         </div>
     </div>
 </div>
-@endsection
+</x-guest-layout>

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-guest-layout>
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="bg-white shadow-sm border-b">
@@ -128,6 +126,35 @@
             </div>
         </div>
 
+        <!-- Ressources utilisées -->
+        <div class="max-w-4xl mx-auto mt-16 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Ressources utilisées</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>
+                    <a href="https://laravel.com/docs" target="_blank" class="text-indigo-600 hover:underline">Laravel</a> – Framework PHP principal du projet
+                </li>
+                <li>
+                    <a href="https://laravel-livewire.com/docs" target="_blank" class="text-indigo-600 hover:underline">Livewire</a> – Composants dynamiques pour Laravel
+                </li>
+                <li>
+                    <a href="https://spatie.be/docs/laravel-permission" target="_blank" class="text-indigo-600 hover:underline">Spatie Laravel Permission</a> – Gestion des rôles et permissions
+                </li>
+                <li>
+                    <a href="https://spatie.be/docs/laravel-medialibrary" target="_blank" class="text-indigo-600 hover:underline">Spatie Media Library</a> – Gestion avancée des fichiers et médias
+                </li>
+                <li>
+                    <a href="https://tailwindcss.com/docs" target="_blank" class="text-indigo-600 hover:underline">Tailwind CSS</a> – Framework CSS utilitaire pour le design
+                </li>
+                <li>
+                    <a href="https://filamentphp.com/docs" target="_blank" class="text-indigo-600 hover:underline">Filament</a> – Panneau d'administration moderne pour Laravel
+                </li>
+                <li>
+                    <a href="https://github.com/devrabiul/laravel-toaster-magic" target="_blank" class="text-indigo-600 hover:underline">Laravel Toaster Magic</a> – Notifications toast pour Laravel
+                </li>
+            </ul>
+        </div>
+        <!-- Fin ressources utilisées -->
+
         <!-- Call to action -->
         <div class="text-center">
             <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
@@ -147,4 +174,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-guest-layout>
