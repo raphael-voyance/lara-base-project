@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-guest-layout>
     <div class="relative min-h-screen bg-gray-100 bg-center flex flex-col justify-center items-center">
         @if (Route::has('login'))
             <div class="p-6 text-right w-full max-w-7xl mx-auto">
@@ -241,4 +239,4 @@
             <div class="text-gray-500">&copy; {{ date('Y') }} Raphaël Henry-Navarro. Tous droits réservés.</div>
         </footer>
     </div>
-@endsection
+</x-guest-layout>

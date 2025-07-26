@@ -18,7 +18,9 @@ return [
     'namespace' => 'App\\Plugins',
 
     // Plugins activés
-    'enabled' => [],
+    'enabled' => [
+        'TaskManager' => true,
+    ],
 
     // Configuration par défaut des plugins
     'defaults' => [

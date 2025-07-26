@@ -13,13 +13,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
         @livewireStyles
         @livewireScripts
         {!! ToastMagic::styles() !!}
         @stack('styles')
     </head>
-    <body class="font-sans antialiased min-h-screen bg-gradient-to-tr from-indigo-200 to-white">
-            @include('layouts.navigation')
+    <body class="font-sans antialiased min-h-screen bg-indigo-50">
 
             <!-- Page Heading -->
             @isset($header)
@@ -31,8 +31,8 @@
             @endisset
 
             <!-- Page Content -->
-            <div class="flex items-center justify-center py-8 px-4">
-                <main class="w-full max-w-7xl">
+            <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
+                <main class="flex flex-col w-full lg:max-w-4xl">
                     {{ $slot }}
                 </main>
             </div>
